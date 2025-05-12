@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кінотеатр під відкритим небом</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+<header>
+    <h1>Кінотеатр під відкритим небом (Рівне)
+        <button class="about-btn" onclick="toggleAbout()">Про нас</button>
+        <button class="about-btn" onclick="toggleMap()">Локація</button>
+    </h1>
+    <p style="color: white; font-size: 20px; margin-top: -10px;">🎬 Розклад на червень 2025</p>
+</header>
+
+<div class="about-popup" id="aboutPopup">
+    Перегляд фільму <strong>безкоштовний!</strong><br>
+    Вартість оренди пуфа: <strong>120 грн</strong><br>
+    У дощову погоду кінотеатр <strong>не працюватиме!</strong>
+</div>
+
+<div class="map-section" id="mapPopup">
+    <div id="map" style="width:90%; height:400px; border-radius:10px; margin: 0 auto;"></div>
+</div>
+
+<div class="movie-grid" id="movieGrid">
+  
+</div>
+
+<div class="visitors-header">
+    <h2>Наші щасливі відвідувачі</h2>
+</div>
+
+<div id="visitorsGalleryGrid" class="visitors-grid">
+
+</div>
+
+
+
+
+<script async
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBH-Iw4qkg1KhQZ8ShCDnOreIwZVJCcnf8&callback=initMap">
+</script>
+
+<script src="./js/main.js"></script>
+</body>
+</html>
