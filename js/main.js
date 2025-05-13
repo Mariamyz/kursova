@@ -103,7 +103,9 @@ function showMovieInfo(data, showtime, dateInfo) {
 
     const oldContainer = document.querySelector('.info-weather');
     if (oldContainer) oldContainer.remove();
-    document.body.appendChild(infoWeatherContainer);
+    document.getElementById("movieGrid")?.after(infoWeatherContainer);
+
+
 
     getWeather(showtime);
 }
@@ -179,8 +181,9 @@ function loadVisitorPhotos() {
         .then(response => response.json())
         .then(data => {
             const galleryGrid = document.getElementById('visitorsGalleryGrid');
-            galleryGrid.innerHTML = "";
-
+            if (!galleryGrid.innerHTML.includes("img")) {
+                galleryGrid.innerHTML = "";
+            }
             data.results.forEach(photo => {
                 const img = document.createElement('img');
                 img.src = photo.urls.small;
@@ -194,6 +197,36 @@ function loadVisitorPhotos() {
         });
 }
 
+// loadVisitorPhotos();
+
+function loadLocalVisitorPhotos() {
+    const galleryGrid = document.getElementById('visitorsGalleryGrid');
+
+    const localImages = [
+        "img/зображення_viber_2025-05-13_17-13-06-494.jpg",
+        "img/зображення_viber_2025-05-13_17-13-08-598.jpg",
+        "img/зображення_viber_2025-05-13_17-13-16-662.jpg",
+        "img/зображення_viber_2025-05-13_17-14-24-352.jpg",
+        "img/зображення_viber_2025-05-13_17-14-24-391.jpg",
+        "img/зображення_viber_2025-05-13_17-14-24-437.jpg",
+        "img/зображення_viber_2025-05-13_17-14-24-466.jpg",
+        "img/зображення_viber_2025-05-13_17-14-24-508.jpg",
+        "img/зображення_viber_2025-05-13_17-14-24-543.jpg",
+        "img/зображення_viber_2025-05-13_17-14-24-592.jpg",
+        "img/зображення_viber_2025-05-13_17-14-24-630.jpg",
+        "img/зображення_viber_2025-05-13_17-14-24-683.jpg"
+    ];
+
+    localImages.forEach(path => {
+        const img = document.createElement('img');
+        img.src = path;
+        img.alt = "Наш відвідувач";
+        img.classList.add('visitor-photo');
+        galleryGrid.appendChild(img);
+    });
+}
+
+loadLocalVisitorPhotos();
 loadVisitorPhotos();
 
 function openTrailer() {
@@ -205,5 +238,5 @@ function closeTrailer() {
   modal.style.display = "none";
 
   const iframe = document.getElementById("trailerVideo");
-  iframe.src = iframe.src; // Зупинити відео
+  iframe.src = iframe.src; 
 }
