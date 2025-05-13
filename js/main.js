@@ -35,6 +35,19 @@ const unsplashAccessKey = "dEksPI42OjdG_XLZnNIVpymd7ukBJPeIx0p0VQb-Rzk";
 
 const movieGrid = document.getElementById('movieGrid');
 
+const trailerLinks = {
+  "Harry Potter and the Sorcerer's Stone": "https://www.youtube.com/embed/VyHV0BRtdxo",
+  "Twilight": "https://www.youtube.com/embed/uxjNDE2fMjI",
+  "Titanic": "https://www.youtube.com/embed/kVrqfYjkTdQ",
+  "Avatar": "https://www.youtube.com/embed/5PSNL1qE6VY",
+  "The Lord of the Rings: The Fellowship of the Ring": "https://www.youtube.com/embed/V75dMMIW2B4",
+  "Pirates of the Caribbean: The Curse of the Black Pearl": "https://www.youtube.com/embed/naQr0uTrH_s",
+  "Fast & Furious": "https://www.youtube.com/embed/uSDNZeRX_1Y",
+  "Guardians of the Galaxy": "https://www.youtube.com/embed/d96cjJhvlMA",
+  "Joker": "https://www.youtube.com/embed/zAGVQLHvwOY",
+  "The Dark Knight": "https://www.youtube.com/embed/EXeTwQWrcwY"
+};
+
 movies.forEach((title, index) => {
     fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(title)}&apikey=${apiKey}`)
         .then(response => response.json())
@@ -68,7 +81,18 @@ function showMovieInfo(data, showtime, dateInfo) {
         <p><strong>Час показу:</strong> ${showtime}</p>
         <p><strong>День показу:</strong> ${dateInfo.day}, ${dateInfo.date}</p>
     </div>
-`;
+    `;
+
+    const trailerBtn = document.createElement('button');
+    trailerBtn.textContent = "🎬 Дивитись трейлер";
+    trailerBtn.className = "trailer-btn";
+    
+    trailerBtn.onclick = () => {
+        const trailerUrl = trailerLinks[data.Title] || "https://www.youtube.com/embed/ScMzIvxBSi4";
+        document.getElementById("trailerVideo").src = trailerUrl;
+        openTrailer();
+    };
+    movieCard.appendChild(trailerBtn);
 
     const weatherCard = document.createElement('div');
     weatherCard.id = 'weatherCard';
@@ -98,19 +122,12 @@ function getWeather(showtime) {
             let iconFile = "weather.svg";
             const description = forecast.weather[0].main.toLowerCase();
 
-            if (description.includes("cloud")) {
-                iconFile = "cloudy-day-2.svg";
-            } else if (description.includes("rain")) {
-                iconFile = "rainy-5.svg";
-            } else if (description.includes("snow")) {
-                iconFile = "snowy-3.svg";
-            } else if (description.includes("thunder")) {
-                iconFile = "thunder.svg";
-            } else if (description.includes("clear") || description.includes("sun")) {
-                iconFile = "day.svg";
-            } else if (description.includes("night")) {
-                iconFile = "night.svg";
-            }
+            if (description.includes("cloud")) iconFile = "cloudy-day-2.svg";
+            else if (description.includes("rain")) iconFile = "rainy-5.svg";
+            else if (description.includes("snow")) iconFile = "snowy-3.svg";
+            else if (description.includes("thunder")) iconFile = "thunder.svg";
+            else if (description.includes("clear") || description.includes("sun")) iconFile = "day.svg";
+            else if (description.includes("night")) iconFile = "night.svg";
 
             const weatherCard = document.getElementById('weatherCard');
             weatherCard.innerHTML = `
@@ -120,7 +137,6 @@ function getWeather(showtime) {
                 <p><strong style="color: #ffa726;">Температура:</strong> <span style="color: #f5f5f5;">${forecast.main.temp}°C</span></p>
                 <p><strong style="color: #ffa726;">Відчувається як:</strong> <span style="color:#f5f5f5;">${forecast.main.feels_like}°C</span></p>
             `;
-            
         })
         .catch(error => {
             console.error("Помилка при отриманні погоди:", error);
@@ -137,7 +153,6 @@ function toggleMap() {
     const map = document.getElementById('mapPopup');
     map.style.display = (map.style.display === 'block') ? 'none' : 'block';
 }
-
 
 let map;
 
@@ -180,3 +195,15 @@ function loadVisitorPhotos() {
 }
 
 loadVisitorPhotos();
+
+function openTrailer() {
+  document.getElementById("trailerModal").style.display = "block";
+}
+
+function closeTrailer() {
+  const modal = document.getElementById("trailerModal");
+  modal.style.display = "none";
+
+  const iframe = document.getElementById("trailerVideo");
+  iframe.src = iframe.src; // Зупинити відео
+}
