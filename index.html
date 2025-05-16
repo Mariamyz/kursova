@@ -4,14 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Кінотеатр під відкритим небом</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  
+   
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
     <div class="wrapper">
 <header>
-    <h1>Кінотеатр під відкритим небом (Рівне)
+    <h1>
+      <img src="./img/98d13579-13ed-4438-9c6d-29deb7ace97b.png" alt="Логотип" class="logo">
+      Кінотеатр під відкритим небом (Рівне)
         <button class="about-btn" onclick="toggleAbout()">Про нас</button>
         <button class="about-btn" onclick="toggleMap()">Локація</button>
     </h1>
@@ -24,8 +27,17 @@
     У дощову погоду кінотеатр <strong>не працюватиме!</strong>
 </div>
 
-<div class="map-section" id="mapPopup">
-    <div id="map" style="width:90%; height:400px; border-radius:10px; margin: 0 auto;"></div>
+<div id="mapPopup" style="display: none; text-align: center; margin-top: 20px;">
+  
+  <iframe class="map-frame" 
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1739.1699500878415!2d26.259250137551504!3d50.61544484944693!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x472f134ff9b16c5b%3A0xcd0c4cf552a1b168!2z0J_QsNGA0Log0KLQsNGA0LDRgdCwINCo0LXQstGH0LXQvdC60LA!5e0!3m2!1sru!2sua!4v1747336300556!5m2!1sru!2sua" 
+      width="80%" 
+      height="300" 
+      style="border:0; border-radius:10px;" 
+      allowfullscreen 
+      loading="lazy" 
+      referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
 </div>
 
 <div class="movie-grid" id="movieGrid">
@@ -41,29 +53,18 @@
 </div>
 
 
-<div id="trailerModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeTrailer()">&times;</span>
-      <iframe id="trailerVideo" 
-              src="https://www.youtube.com/embed/ScMzIvxBSi4" 
-              title="YouTube video player" frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-              allowfullscreen>
-      </iframe>
-    </div>
-  </div>
-</div>
-
+  
   <footer class="main-footer">
     <p>🍿 Завжди раді нашим глядачам! Чекаємо вас щовихідних у Парку Шевченка 🌳</p>
-    <p style="font-size: 14px; color: #bbb;">Кінотеатр під відкритим небом | Рівне, 2025</p>
+    <p style="font-size: 14px; color: #bbb;"> ©️ Кінотеатр під відкритим небом | Рівне, 2025</p>
   </footer>
   
 
 
-<script async
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBH-Iw4qkg1KhQZ8ShCDnOreIwZVJCcnf8&callback=initMap">
-</script>
+
+
+  
+  
 
 <script src="./js/main.js"></script>
 </body>

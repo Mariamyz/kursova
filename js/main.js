@@ -152,28 +152,22 @@ function toggleAbout() {
 }
 
 function toggleMap() {
-    const map = document.getElementById('mapPopup');
-    map.style.display = (map.style.display === 'block') ? 'none' : 'block';
+    const map = document.getElementById("mapPopup");
+    map.style.display = (map.style.display === "block") ? "none" : "block";
 }
 
-let map;
-
-function initMap() {
-    const parkShevchenka = { lat: 50.61555556, lng: 26.25888889 };
-    map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 16,
-        center: parkShevchenka,
-    });
-
-    new google.maps.Marker({
-        position: parkShevchenka,
-        map: map,
-        title: "Парк Шевченка",
-        icon: {
-            url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
-        }
-    });
+function closeTrailer() {
+    const modal = document.getElementById("trailerModal");
+    modal.style.display = "none";
+    const iframe = document.getElementById("trailerVideo");
+    iframe.src = iframe.src;
 }
+
+function showFallbackImage() {
+    document.getElementById('map').style.display = 'none';
+    document.getElementById('fallbackImage').style.display = 'block';
+}
+
 
 function loadVisitorPhotos() {
     const query = "cinema outdoor ";
@@ -197,7 +191,6 @@ function loadVisitorPhotos() {
         });
 }
 
-// loadVisitorPhotos();
 
 function loadLocalVisitorPhotos() {
     const galleryGrid = document.getElementById('visitorsGalleryGrid');
