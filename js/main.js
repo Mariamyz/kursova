@@ -86,7 +86,6 @@ function showMovieInfo(data, showtime, dateInfo) {
     const trailerBtn = document.createElement('button');
     trailerBtn.textContent = "🎬 Дивитись трейлер";
     trailerBtn.className = "trailer-btn";
-    
     trailerBtn.onclick = () => {
         const trailerUrl = trailerLinks[data.Title] || "https://www.youtube.com/embed/ScMzIvxBSi4";
         document.getElementById("trailerVideo").src = trailerUrl;
@@ -98,17 +97,103 @@ function showMovieInfo(data, showtime, dateInfo) {
     weatherCard.id = 'weatherCard';
     weatherCard.className = 'card';
 
+    const oldContainer = document.querySelector('.info-weather');
+    if (oldContainer) oldContainer.remove();
+
+    const oldReviewSection = document.querySelector('.review-section');
+    if (oldReviewSection) oldReviewSection.remove();
+
+    const wrapper = document.createElement('div');
+    wrapper.appendChild(infoWeatherContainer);
+
     infoWeatherContainer.appendChild(movieCard);
     infoWeatherContainer.appendChild(weatherCard);
 
-    const oldContainer = document.querySelector('.info-weather');
-    if (oldContainer) oldContainer.remove();
-    document.getElementById("movieGrid")?.after(infoWeatherContainer);
-
-
+    document.getElementById("movieGrid")?.after(wrapper);
 
     getWeather(showtime);
+
+    const reviewSection = document.createElement('div');
+    reviewSection.className = 'review-section';
+    reviewSection.style.textAlign = 'left';
+    reviewSection.style.marginLeft = '40px';
+    reviewSection.style.marginRight = '40px';
+    reviewSection.innerHTML = `
+      <h3>💬 Залишити відгук</h3>
+      <div class="star-rating">
+        ${[1, 2, 3, 4, 5].map(i => `<span class="star" data-value="${i}">☆</span>`).join('')}
+      </div>
+      <input type="text" id="reviewerName" placeholder="Ваше ім’я">
+      <textarea id="reviewText" placeholder="Ваш коментар..."></textarea>
+      <button onclick="submitReview('${data.Title}')">Залишити відгук</button>
+      <div id="reviewList"></div>
+    `;
+
+    wrapper.appendChild(reviewSection);
+
+    reviewSection.querySelectorAll('.star').forEach(star => {
+      star.addEventListener('click', () => {
+        const rating = parseInt(star.dataset.value);
+        reviewSection.querySelectorAll('.star').forEach(s => {
+          s.textContent = parseInt(s.dataset.value) <= rating ? '★' : '☆';
+          s.classList.remove('selected');
+        });
+        reviewSection.querySelectorAll('.star').forEach(s => {
+          if (parseInt(s.dataset.value) <= rating) s.classList.add('selected');
+        });
+      });
+    });
+
+    renderReviews(data.Title, reviewSection.querySelector("#reviewList"));
 }
+
+function submitReview(title) {
+  const reviewSection = document.querySelector(".review-section");
+  const nameInput = reviewSection.querySelector("#reviewerName");
+  const commentInput = reviewSection.querySelector("#reviewText");
+  const name = nameInput.value.trim() || "Анонім";
+  const comment = commentInput.value.trim();
+  const selectedStars = reviewSection.querySelectorAll(".star.selected");
+  const rating = selectedStars.length;
+
+  if (!comment) return alert("Коментар не може бути порожнім!");
+
+  const reviews = JSON.parse(localStorage.getItem("movieComments") || "{}");
+  if (!reviews[title]) reviews[title] = [];
+  reviews[title].push({ name, comment, rating });
+  localStorage.setItem("movieComments", JSON.stringify(reviews));
+
+  renderReviews(title, reviewSection.querySelector("#reviewList"));
+
+  nameInput.value = "";
+  commentInput.value = "";
+  reviewSection.querySelectorAll(".star").forEach(s => {
+    s.textContent = "☆";
+    s.classList.remove("selected");
+  });
+}
+
+function renderReviews(title, container) {
+  const reviewsData = JSON.parse(localStorage.getItem("movieComments") || "{}");
+  const reviews = reviewsData[title] || [];
+
+  container.innerHTML = reviews.map((r, index) => `
+    <div class="single-review">
+      <div><strong>${r.name}</strong> — ${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)}</div>
+      <p>${r.comment}</p>
+      <button onclick="deleteReview('${title}', ${index})">🗑️ Видалити</button>
+    </div>
+  `).join('');
+}
+
+function deleteReview(title, index) {
+  const reviewsData = JSON.parse(localStorage.getItem("movieComments") || "{}");
+  if (!reviewsData[title]) return;
+  reviewsData[title].splice(index, 1);
+  localStorage.setItem("movieComments", JSON.stringify(reviewsData));
+  renderReviews(title, document.getElementById("reviewList"));
+}
+
 
 function getWeather(showtime) {
     const hour = parseInt(showtime.split(":")[0]);
@@ -163,10 +248,12 @@ function closeTrailer() {
     iframe.src = iframe.src;
 }
 
+
 function showFallbackImage() {
     document.getElementById('map').style.display = 'none';
     document.getElementById('fallbackImage').style.display = 'block';
 }
+
 
 
 function loadVisitorPhotos() {
@@ -233,3 +320,20 @@ function closeTrailer() {
   const iframe = document.getElementById("trailerVideo");
   iframe.src = iframe.src; 
 }
+function renderAllReviews() {
+    const reviews = JSON.parse(localStorage.getItem("movieReviews")) || {};
+    const container = document.getElementById("reviewsGalleryGrid");
+    container.innerHTML = "";
+  
+    Object.entries(reviews).forEach(([title, { text, rating }]) => {
+      const card = document.createElement("div");
+      card.className = "review-card";
+      card.innerHTML = `
+        <h3>${title}</h3>
+        <div class="review-stars">${"★".repeat(rating || 0)}${"☆".repeat(5 - (rating || 0))}</div>
+        <p>${text || "Без коментаря."}</p>
+      `;
+      container.appendChild(card);
+    });
+  }
+  

@@ -6,7 +6,7 @@
     <title>Кінотеатр під відкритим небом</title>
    
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
-
+    
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
@@ -44,13 +44,28 @@
   
 </div>
 
+
+<div id="trailerModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeTrailer()">&times;</span>
+    <iframe id="trailerVideo" 
+            src="https://www.youtube.com/embed/ScMzIvxBSi4" 
+            title="YouTube video player" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+    </iframe>
+  </div>
+</div>
+
+
 <div class="visitors-header">
-    <h2>Наші щасливі відвідувачі</h2>
+  <h2>Наші щасливі відвідувачі</h2>
 </div>
 
 <div id="visitorsGalleryGrid" class="visitors-grid">
 
 </div>
+
 
 
   
@@ -64,7 +79,7 @@
 
 
   
-  
+
 
 <script src="./js/main.js"></script>
 </body>
