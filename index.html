@@ -6,20 +6,26 @@
     <title>Кінотеатр під відкритим небом</title>
    
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
     <div class="wrapper">
-<header>
-    <h1>
-      <img src="./img/98d13579-13ed-4438-9c6d-29deb7ace97b.png" alt="Логотип" class="logo">
-      Кінотеатр під відкритим небом (Рівне)
-        <button class="about-btn" onclick="toggleAbout()">Про нас</button>
-        <button class="about-btn" onclick="toggleMap()">Локація</button>
-    </h1>
-    <p style="color: white; font-size: 20px; margin-top: -10px;">🎬 Розклад на червень 2025</p>
-</header>
+      <header class="main-header fade-in">
+        <div class="header-inner">
+          <img src="./img/98d13579-13ed-4438-9c6d-29deb7ace97b.png" alt="Логотип" class="logo">
+          <div class="text-block">
+            <h1>Кінотеатр під відкритим небом <span>(Рівне)</span></h1>
+            <p class="tagline">Розклад на червень <strong>2025</strong></p>
+          </div>
+          <div class="btn-group">
+            <button class="about-btn" onclick="toggleAbout()">Про нас</button>
+            <button class="about-btn" onclick="toggleMap()">Локація</button>
+          </div>
+        </div>
+      </header>
+      
 
 <div class="about-popup" id="aboutPopup">
     Перегляд фільму <strong>безкоштовний!</strong><br>
@@ -58,9 +64,12 @@
 </div>
 
 
-<div class="visitors-header">
-  <h2>Наші щасливі відвідувачі</h2>
-</div>
+<section class="visitors-header-glass fade-in">
+  <div class="visitors-inner">
+    <h2>Наші щасливі відвідувачі</h2>
+  </div>
+</section>
+
 
 <div id="visitorsGalleryGrid" class="visitors-grid">
 
